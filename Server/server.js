@@ -12,6 +12,18 @@ app.use(express.static('server/public'));
 
 app.use(bodyParser.urlencoded({extended: true}));
 
+function calculation(numberInputOne, numberInputTwo){
+    if(operator === "+"){
+       total = Number(numberInputOne) + Number(numberInputTwo); 
+    }else if(operator === "-"){
+        total = Number(numberInputOne) - Number(numberInputTwo);
+    }else if (operator === "*"){
+        total = Number(numberInputOne) * Number(numberInputTwo);
+    }else if (operator === "/"){
+        total = Number(numberInputOne) / Number(numberInputTwo);
+    }
+}
+
 app.listen(port, () => {
     console.log("Up and running on port: ", port);
 });

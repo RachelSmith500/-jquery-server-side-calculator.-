@@ -45,9 +45,17 @@ function equals(){
 
     $.ajax({
         url: '/calculator',
-        method:'POST',
+        method:'GET',
         data: total
     }).then(function(response){
         console.log('response from calculator:', response);
+        for (let i = 0; i < response.length; i++) {
+            let mathTotal = response[i];
+            $('#equationOutput').append(`
+                <ul>
+                    <li>${mathTotal.mathEquation}</li>
+                </ul>    
+            `);
+        }
     })
 }
