@@ -7,22 +7,40 @@ const bodyParser = require('body-parser');
 const app = express();
 const port = 5000;
 
+let math = [];
+
 // express static file serving - public is the folder name
 app.use(express.static('server/public'));
 
 app.use(bodyParser.urlencoded({extended: true}));
 
-function calculation(numberInputOne, numberInputTwo){
-    if(operator === "+"){
-       total = Number(numberInputOne) + Number(numberInputTwo); 
-    }else if(operator === "-"){
-        total = Number(numberInputOne) - Number(numberInputTwo);
-    }else if (operator === "*"){
-        total = Number(numberInputOne) * Number(numberInputTwo);
-    }else if (operator === "/"){
-        total = Number(numberInputOne) / Number(numberInputTwo);
+function calculation(){
+    if(math[0].mathOperator === "+"){
+       math[0].answer = Number(math[0].numberInputOne) + Number(math[0].numberInputTwo); 
+    }else if(math[0].mathOperator === "-"){
+        math[0].answer = Number(math[0].numberInputOne) - Number(math[0].numberInputTwo);
+    }else if (math[0].mathOperator === "*"){
+        math[0].answer = Number(math[0].numberInputOne) * Number(math[0].numberInputTwo);
+    }else if (math[0].mathOperator === "/"){
+        math[0].answer = Number(math[0].numberInputOne) / Number(math[0].numberInputTwo);
     }
 }
+
+app.get('/calculator', function(req, res){
+    console.log('we are getting the GET /calculator', math.answer);
+    res.send(math);
+});
+
+app.post('/calculator', (req, res) => {
+    let newestCalculation = req.body;
+    // calculation(newestCalculation.numberInputOne, newestCalculation.numberInputTwo, newestCalculation. mathOperator);
+    // newestCalculation.mathEquation=mathEquation;
+    console.log('here is the new calculation', newestCalculation);
+    math.unshift(newestCalculation);
+    calculation();
+    console.log('after calculation', math);
+    res.sendStatus(201);
+});
 
 app.listen(port, () => {
     console.log("Up and running on port: ", port);
