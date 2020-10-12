@@ -11,10 +11,14 @@ let math = [];
 
 // express static file serving - public is the folder name
 app.use(express.static('server/public'));
-
+//other half of the body-parser
 app.use(bodyParser.urlencoded({extended: true}));
 
+//this function is calculating our answers
 function calculation(){
+    //if our mathOperator is plus then take the index of 0 in the math array, 
+    // specifically the numberInputOne plus the numberInput 2 that will be our answer 
+    // that is hte first if the rest are the same just different math operators
     if(math[0].mathOperator === "+"){
        math[0].answer = Number(math[0].numberInputOne) + Number(math[0].numberInputTwo); 
     }else if(math[0].mathOperator === "-"){
@@ -25,7 +29,7 @@ function calculation(){
         math[0].answer = Number(math[0].numberInputOne) / Number(math[0].numberInputTwo);
     }
 }
-
+//this is our app.get
 app.get('/calculator', function(req, res){
     console.log('we are getting the GET /calculator', math.answer);
     res.send(math);
@@ -33,8 +37,7 @@ app.get('/calculator', function(req, res){
 
 app.post('/calculator', (req, res) => {
     let newestCalculation = req.body;
-    // calculation(newestCalculation.numberInputOne, newestCalculation.numberInputTwo, newestCalculation. mathOperator);
-    // newestCalculation.mathEquation=mathEquation;
+  
     console.log('here is the new calculation', newestCalculation);
     math.unshift(newestCalculation);
     calculation();
